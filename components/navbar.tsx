@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
-import { Calendar } from "@/components/ui/calendar"
+import { Calendar } from "@/components/ui/calendar";
 
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import Image from "next/image"
-import { usePathname } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,28 +17,28 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Menu, User, ShoppingCart, LogOut, Settings } from "lucide-react"
-import { useAuth } from "@/hooks/use-auth"
-import { useBasket } from "@/hooks/use-basket"
-import { ThemeToggle } from "@/components/theme-toggle"
+} from "@/components/ui/dropdown-menu";
+import { Menu, User, ShoppingCart, LogOut, Settings } from "lucide-react";
+import { useAuth } from "@/hooks/use-auth";
+import { useBasket } from "@/hooks/use-basket";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const pathname = usePathname()
-  const { user, logout } = useAuth()
-  const { basket } = useBasket()
+  const [isScrolled, setIsScrolled] = useState(false);
+  const pathname = usePathname();
+  const { user, logout } = useAuth();
+  const { basket } = useBasket();
 
-  const totalItems = basket.items.reduce((acc, item) => acc + item.quantity, 0)
+  const totalItems = basket.items.reduce((acc, item) => acc + item.quantity, 0);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10)
-    }
+      setIsScrolled(window.scrollY > 10);
+    };
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navLinks = [
     { href: "/", label: "Home" },
@@ -47,7 +47,7 @@ export default function Navbar() {
     { href: "/dining", label: "Dining" },
     { href: "/about", label: "About" },
     { href: "/contact", label: "Contact" },
-  ]
+  ];
 
   return (
     <header
@@ -61,14 +61,24 @@ export default function Navbar() {
         <div className="flex items-center">
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="mr-2 md:hidden" aria-label="Menu">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="mr-2 md:hidden"
+                aria-label="Menu"
+              >
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-[300px] sm:w-[400px]">
               <div className="grid gap-6 py-6">
                 <Link href="/" className="flex items-center gap-2 font-bold">
-                  <Image src="/placeholder.svg?height=40&width=40" alt="Logo" width={40} height={40} />
+                  <Image
+                    src="/placeholder.svg?height=40&width=40"
+                    alt="Logo"
+                    width={40}
+                    height={40}
+                  />
                   <span>Luxury Hotel</span>
                 </Link>
                 <nav className="grid gap-4">
@@ -76,7 +86,9 @@ export default function Navbar() {
                     <Link
                       key={link.href}
                       href={link.href}
-                      className={`text-lg font-medium ${pathname === link.href ? "text-primary" : ""}`}
+                      className={`text-lg font-medium ${
+                        pathname === link.href ? "text-primary" : ""
+                      }`}
                     >
                       {link.label}
                     </Link>
@@ -87,12 +99,21 @@ export default function Navbar() {
                     <div className="grid gap-4">
                       <div className="flex items-center gap-4">
                         <Avatar>
-                          <AvatarImage src={user.avatar || "/placeholder.svg"} alt={user.name} />
-                          <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                          <AvatarImage
+                            src={user.avatar || "/placeholder.svg"}
+                            alt={user.name || user.email}
+                          />
+                          <AvatarFallback>
+                            {(user.name || user.email || "U").charAt(0)}
+                          </AvatarFallback>
                         </Avatar>
                         <div>
-                          <p className="font-medium">{user.name}</p>
-                          <p className="text-sm text-muted-foreground">{user.email}</p>
+                          <p className="font-medium">
+                            {user.name || user.email}
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            {user.email}
+                          </p>
                         </div>
                       </div>
                       <Button variant="outline" onClick={logout}>
@@ -116,8 +137,21 @@ export default function Navbar() {
           </Sheet>
 
           <Link href="/" className="flex items-center gap-2 font-bold">
-            <Image src="/placeholder.svg?height=40&width=40" alt="Logo" width={40} height={40} />
-            <span className={isScrolled || pathname !== "/" ? "text-foreground" : "text-white"}>Luxury Hotel</span>
+            <Image
+              src="/placeholder.svg?height=40&width=40"
+              alt="Logo"
+              width={40}
+              height={40}
+            />
+            <span
+              className={
+                isScrolled || pathname !== "/"
+                  ? "text-foreground"
+                  : "text-white"
+              }
+            >
+              Luxury Hotel
+            </span>
           </Link>
 
           <nav className="ml-8 hidden md:flex items-center gap-6">
@@ -129,8 +163,8 @@ export default function Navbar() {
                   pathname === link.href
                     ? "text-primary"
                     : isScrolled || pathname !== "/"
-                      ? "text-foreground"
-                      : "text-white"
+                    ? "text-foreground"
+                    : "text-white"
                 }`}
               >
                 {link.label}
@@ -146,7 +180,11 @@ export default function Navbar() {
             variant="ghost"
             size="icon"
             asChild
-            className={isScrolled || pathname !== "/" ? "" : "text-white hover:text-white hover:bg-white/20"}
+            className={
+              isScrolled || pathname !== "/"
+                ? ""
+                : "text-white hover:text-white hover:bg-white/20"
+            }
             aria-label="Shopping cart"
           >
             <Link href="/basket">
@@ -165,12 +203,21 @@ export default function Navbar() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className={isScrolled || pathname !== "/" ? "" : "text-white hover:text-white hover:bg-white/20"}
+                  className={
+                    isScrolled || pathname !== "/"
+                      ? ""
+                      : "text-white hover:text-white hover:bg-white/20"
+                  }
                   aria-label="User menu"
                 >
                   <Avatar className="h-8 w-8">
-                    <AvatarImage src={user.avatar || "/placeholder.svg"} alt={user.name} />
-                    <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                    <AvatarImage
+                      src={user.avatar || "/placeholder.svg"}
+                      alt={user.name || user.email}
+                    />
+                    <AvatarFallback>
+                      {(user.name || user.email || "U").charAt(0)}
+                    </AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
@@ -207,7 +254,11 @@ export default function Navbar() {
               <Button
                 variant="ghost"
                 asChild
-                className={isScrolled || pathname !== "/" ? "" : "text-white hover:text-white hover:bg-white/20"}
+                className={
+                  isScrolled || pathname !== "/"
+                    ? ""
+                    : "text-white hover:text-white hover:bg-white/20"
+                }
               >
                 <Link href="/auth/login">Sign in</Link>
               </Button>
@@ -219,5 +270,5 @@ export default function Navbar() {
         </div>
       </div>
     </header>
-  )
+  );
 }
