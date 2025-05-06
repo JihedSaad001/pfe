@@ -1,0 +1,23 @@
+{
+  "name": "luxury-hotel-management",
+  "version": "1.0.0",
+  "description": "Luxury Hotel Management System",
+  "scripts": {
+    "setup-db": "node setup-database.js",
+    "start-backend": "node start-backend.js",
+    "start-frontend": "cd frontend && npm run dev",
+    "dev": "concurrently \"npm run start-backend\" \"npm run start-frontend\"",
+    "check-db": "node check-postgres.js"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "concurrently": "^8.2.2",
+    "dotenv": "^16.5.0",
+    "lucide-react": "^0.507.0",
+    "next-themes": "^0.4.6",
+    "pg": "^8.15.6",
+    "react-hook-form": "^7.56.1",
+    "tailwind-merge": "^3.2.0"
+  }
+}
